@@ -4,14 +4,6 @@ using UnityEngine;
 
 public class ElevatorScript : MonoBehaviour
 {
-    
-
-    [SerializeField]
-    AudioSource audioPlayer;
-
-    [SerializeField]
-    AudioClip elevatorStartSound, elevatorRideSound, elevatorStopSound;
-
     [SerializeField]
     float flootHeight = 4, elevatorSpeed = 1f, timeOut = 7;
 
@@ -19,7 +11,7 @@ public class ElevatorScript : MonoBehaviour
     GameObject[] elevatorDors = new GameObject[4];
 
     GameObject player = null;
-    bool isDorsOpened = false, call = false, isWaiting = false, isWay = false, goingUp = true, isRiding = false, isStoping = false, wasRiding = false, wasStoping = false, isPlayerInDoors = false;
+    bool isDorsOpened = false, call = false, isWaiting = false, isWay = false, goingUp = true, isPlayerInDoors = false;
     int calledFloor = 1, currentFloor = 1, doors = 2;
     float timer = 0, way, wayEnded;
 
@@ -53,8 +45,6 @@ public class ElevatorScript : MonoBehaviour
                 wayEnded = 0;
                 if (way > 0) goingUp = true;
                 else goingUp = false;
-                audioPlayer.clip = elevatorStartSound;
-                audioPlayer.PlayDelayed(2);
             }
             if (timer >= 2)
             {
@@ -63,15 +53,6 @@ public class ElevatorScript : MonoBehaviour
                     transform.position = new Vector3(transform.position.x, transform.position.y + elevatorSpeed * Time.deltaTime, transform.position.z);
                     if (player) player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + elevatorSpeed * Time.deltaTime, player.transform.position.z);
                     wayEnded += elevatorSpeed * Time.deltaTime;
-
-                    if (way - wayEnded + 2 <= way && !wasRiding)
-                    {
-                        isRiding = true;
-                    }
-                    else if (way - wayEnded <= 2 && !wasStoping)
-                    {
-                        isStoping = true;
-                    }
                 }
                 else if (goingUp && way <= wayEnded)
                     wayEnd();
@@ -81,32 +62,9 @@ public class ElevatorScript : MonoBehaviour
                     transform.position = new Vector3(transform.position.x, transform.position.y - elevatorSpeed * Time.deltaTime, transform.position.z);
                     if (player) player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y - elevatorSpeed * Time.deltaTime, player.transform.position.z);
                     wayEnded -= elevatorSpeed * Time.deltaTime;
-                    if (way - wayEnded > way + 2 && !wasRiding)
-                    {
-                        isRiding = true;
-                    }
-                    else if (way - wayEnded >= -2 && !wasStoping)
-                    {
-                        isStoping = true;
-                    }
                 }
                 else if (!goingUp && way >= wayEnded)
                     wayEnd();
-
-                if (isStoping)
-                {
-                    audioPlayer.clip = elevatorStopSound;
-                    audioPlayer.Play();
-                    isStoping = false;
-                    wasStoping = true;
-                }
-                else if (isRiding)
-                {
-                    audioPlayer.clip = elevatorRideSound;
-                    audioPlayer.Play();
-                    isRiding = false;
-                    wasRiding = true;
-                }
                 currentFloor = (int)Mathf.Floor(transform.position.y / 4) + 1;
             }
             
@@ -120,8 +78,6 @@ public class ElevatorScript : MonoBehaviour
     private void wayEnd()
     {
         isWaiting = true;
-        wasStoping = false;
-        wasRiding = false;
         isWay = false;
         call = false;
         currentFloor = calledFloor;
@@ -150,7 +106,6 @@ public class ElevatorScript : MonoBehaviour
             door.GetComponent<DoorScript>().open();
         }
         isDorsOpened = true;
-        audioPlayer.Stop();
     }
 
     private void closeDoors()

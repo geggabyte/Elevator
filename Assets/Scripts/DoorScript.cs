@@ -5,87 +5,61 @@ using UnityEngine;
 public class DoorScript : MonoBehaviour
 {
     [SerializeField]
-    bool left = false;
+    private float OpenPosition = 1.05f, ClosePosition = 0.4f, DoorSpeed = 1f;
 
     [SerializeField]
-    float openPos = 1.05f, closePos = 0.39f, animationSpeed = 0.01f;
+    private bool isLeft = true, isOpen = false, isClose = true;
 
-
-    private bool opening = false, closing = false, isOpen = false;
-    private AudioSource audioPlayer;
     private ElevatorScript elevator;
-    
+    private Transform door;
+
     private void Start()
     {
-        elevator = transform.parent.GetComponent<ElevatorScript>();
-        if(transform.childCount > 0)
-            audioPlayer =  transform.GetChild(0).gameObject.GetComponent<AudioSource>();
+        //elevator = transform.parent.GetComponent<ElevatorScript>();
+        door = this.GetComponent<Transform>();
+        if (!isLeft)
+        {
+            OpenPosition *= -1;
+            ClosePosition *= -1;
+            DoorSpeed *= -1;
+        }
     }
 
     private void Update()
     {
-        if (opening)
+        if (Input.GetKeyDown(KeyCode.Q)) open();
+        if (Input.GetKeyDown(KeyCode.E)) close();
+
+        if (isOpen)
         {
-            if (left)
+            if ((door.position.x < OpenPosition && isLeft) || (door.position.x > OpenPosition && !isLeft))
             {
-                if (transform.position.x < openPos)
-                    transform.position = new Vector3(transform.position.x + animationSpeed, transform.position.y, transform.position.z);
-                else
-                {
-                    opening = false;
-                    if (audioPlayer) audioPlayer.Stop();
-                }
+                door.position = new Vector3(
+                    door.position.x + DoorSpeed * Time.deltaTime, door.position.y, door.position.z);
             }
-            else
-            {
-                if (transform.position.x > openPos * -1)
-                    transform.position = new Vector3(transform.position.x - animationSpeed, transform.position.y, transform.position.z);
-                else opening = false;
-            }
+            else isOpen = false;
         }
-        if (closing)
+        if(isClose)
         {
-            if (left)
+            if ((door.position.x > ClosePosition && isLeft) || (door.position.x < ClosePosition && !isLeft))
             {
-                if (transform.position.x > closePos)
-                    transform.position = new Vector3(transform.position.x - animationSpeed, transform.position.y, transform.position.z);
-                else 
-                {
-                    closing = false;
-                    if (audioPlayer) audioPlayer.Stop();
-                }
+                door.position = new Vector3(
+                    door.position.x - DoorSpeed * Time.deltaTime, door.position.y, door.position.z);
             }
-            else
-            {
-                if (transform.position.x < closePos * -1)
-                    transform.position = new Vector3(transform.position.x + animationSpeed, transform.position.y, transform.position.z);
-                else closing = false;
-            }
+            else isClose = false;
         }
     }
 
     public void open()
     {
-        if (!opening && !isOpen)
-        {
-            opening = true;
-            closing = false;
-            if (audioPlayer) audioPlayer.Play();
-            Debug.Log("Open");
-            isOpen = true;
-        }
+        isClose = false;
+        isOpen = true;
     }
 
     public void close()
     {
-        if (!closing && isOpen)
-        {
-            closing = true;
-            opening = false;
-            if (audioPlayer) audioPlayer.Play();
-            Debug.Log("Close");
-            isOpen = false;
-        }
+        isOpen = false;
+        isClose = true;
     }
 
     private void OnTriggerEnter(Collider other)

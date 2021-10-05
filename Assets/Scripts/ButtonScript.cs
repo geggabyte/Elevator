@@ -11,14 +11,17 @@ public class ButtonScript : MonoBehaviour
     GameObject elevator;
 
     ElevatorScript elevatorScript;
+    Animation anim;
 
     private void Start()
     {
         elevatorScript = elevator.GetComponent<ElevatorScript>();
+        anim = this.GetComponent<Animation>();
     }
 
     public void TriggerElevator()
     {
+        anim.Play();
         elevatorScript.setFloor(floor);
     }
 }

@@ -313,6 +313,7 @@
 "Assets/Scripts/ButtonScript.cs"
 "Assets/Scripts/DoorScript.cs"
 "Assets/Scripts/ElevatorScript.cs"
+"Assets/Scripts/NewBehaviourScript1.cs"
 "Assets/Scripts/PlayerControlle.cs"
 -langversion:8.0
 
