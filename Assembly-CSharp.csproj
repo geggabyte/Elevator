@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -53,14 +53,12 @@
     <UnityVersion>2021.1.19f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Assets\Scripts\NewBehaviourScript1.cs" />
     <Compile Include="Assets\Scripts\ElevatorScript.cs" />
     <Compile Include="Assets\Scripts\DoorScript.cs" />
     <Compile Include="Assets\Scripts\PlayerControlle.cs" />
     <Compile Include="Assets\Scripts\ButtonScript.cs" />
+    <Compile Include="Assets\Scripts\FloorScript.cs" />
+    <Compile Include="Assets\Scripts\FloorController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

@@ -4,149 +4,121 @@ using UnityEngine;
 
 public class ElevatorScript : MonoBehaviour
 {
-    [SerializeField]
-    float flootHeight = 4, elevatorSpeed = 1f, timeOut = 7;
+    // 0 FLOOR IS 1.3 BY Y
+    //TRIGERS DOESN"T WORK WITHOUT RIGIDBODY
 
     [SerializeField]
-    GameObject[] elevatorDors = new GameObject[4];
+    private GameObject[] Doors = new GameObject[4];
 
-    GameObject player = null;
-    bool isDorsOpened = false, call = false, isWaiting = false, isWay = false, goingUp = true, isPlayerInDoors = false;
-    int calledFloor = 1, currentFloor = 1, doors = 2;
-    float timer = 0, way, wayEnded;
+    [SerializeField]
+    private int DoorsNumber = 2, CurrentFlor = 0, CalledFloor = 0, TrigersCount = 0;
 
+    [SerializeField]
+    private float ElevatorSpeed = 1f;
 
-    
-    void LateUpdate()
+    [SerializeField]
+    bool IsDoorsClosed = true, IsDoorLocked = false;
+
+    private Transform ElevatorTransform;
+
+    private void Start()
     {
-        if (calledFloor != currentFloor) call = true;
-        if (calledFloor == currentFloor && !isDorsOpened  && !call && timer < timeOut) openDoors();
-        if (isDorsOpened) isWaiting = true;
-        if (timer >= timeOut && isDorsOpened) {
-            closeDoors();
-            isWaiting = false;
-        }
+        ElevatorTransform = this.GetComponent<Transform>();
+    }
 
-        if (isPlayerInDoors && !call && isDorsOpened) timer = 0;
-
-        if (call && !isPlayerInDoors) closeDoors();
-
-        if (call)
+    private void Update()
+    {
+        if(TrigersCount >= 2 && CurrentFlor == CalledFloor)
         {
-           if (isPlayerInDoors && timer <= 1)
-           {
-                isWay = false;
-                timer = 0;
-           }
-           if (!isWay){
-                isWay = true;
-                isWaiting = true;
-                way = calledFloor * flootHeight - transform.position.y;
-                wayEnded = 0;
-                if (way > 0) goingUp = true;
-                else goingUp = false;
-            }
-            if (timer >= 2)
-            {
-                if (goingUp && way > wayEnded)
-                {
-                    transform.position = new Vector3(transform.position.x, transform.position.y + elevatorSpeed * Time.deltaTime, transform.position.z);
-                    if (player) player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + elevatorSpeed * Time.deltaTime, player.transform.position.z);
-                    wayEnded += elevatorSpeed * Time.deltaTime;
-                }
-                else if (goingUp && way <= wayEnded)
-                    wayEnd();
-
-                if (!goingUp && way < wayEnded)
-                {
-                    transform.position = new Vector3(transform.position.x, transform.position.y - elevatorSpeed * Time.deltaTime, transform.position.z);
-                    if (player) player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y - elevatorSpeed * Time.deltaTime, player.transform.position.z);
-                    wayEnded -= elevatorSpeed * Time.deltaTime;
-                }
-                else if (!goingUp && way >= wayEnded)
-                    wayEnd();
-                currentFloor = (int)Mathf.Floor(transform.position.y / 4) + 1;
-            }
-            
+            FinishTravel();
         }
-
-        if (isWaiting)
-            timer += Time.deltaTime;
-
-    }
-
-    private void wayEnd()
-    {
-        isWaiting = true;
-        isWay = false;
-        call = false;
-        currentFloor = calledFloor;
-        wayEnded = 0;
-        timer = 0;
-        openDoors();
-    }
-
-    public void setFloor(int x)
-    {
-        if (x != currentFloor)
+        if (IsDoorsClosed && CurrentFlor != CalledFloor)
         {
-            calledFloor = x;
-            timer = 0;
-            isDorsOpened = false;
-            call = false;
-            Debug.Log("floor call: " + x);
+            if (!IsDoorLocked) IsDoorLocked = true;
+            ElevatorTransform.position = new Vector3(ElevatorTransform.position.x, ElevatorTransform.position.y + ElevatorSpeed * Time.deltaTime, ElevatorTransform.position.z);
         }
-        else timer = 0;
     }
 
-    private void openDoors()
+    public void DoorStatusSet(bool status)
     {
-        foreach (GameObject door in elevatorDors)
-        {
-            door.GetComponent<DoorScript>().open();
-        }
-        isDorsOpened = true;
+        IsDoorsClosed = status;
     }
 
-    private void closeDoors()
+    public void FloorCall(int floor)
     {
-        foreach(GameObject door in elevatorDors)
+        Debug.LogFormat("Elevator: floor called {0}", floor);
+        if (floor == CurrentFlor)
         {
-            door.GetComponent<DoorScript>().close();
+            OpenDoors();
         }
-        isDorsOpened = false;
+        else
+        {
+            CalledFloor = floor;
+            CloseDoors();
+        }
     }
+
+    private void FinishTravel()
+    {
+        IsDoorLocked = false;
+        OpenDoors();
+    }
+
+    private void CloseDoors()
+    {
+        foreach (GameObject a in Doors)
+        {
+            if (a != null) a.GetComponent<DoorScript>().close();
+        }
+    }
+
+    private void OpenDoors()
+    {
+        if (IsDoorLocked) return;
+        foreach(GameObject a in Doors)
+        {
+            if(a != null)a.GetComponent<DoorScript>().open();
+        }
+    }
+
+    #region OnTrigger
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Door")
         {
-            elevatorDors[doors] = other.gameObject;
-            doors++;
+            Doors[DoorsNumber] = other.gameObject;
+            DoorsNumber++;
         }
-
-        if (other.tag == "Player")
+        if(other.tag == "Floor")
         {
-            player = other.gameObject;
-            Debug.Log("Player detected");
+            TrigersCount++;
+            CurrentFlor = other.gameObject.transform.parent.GetComponent<FloorScript>().FloorNumber;
+            Debug.LogFormat("Elevator: touched {0}", CurrentFlor);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Door") doors--;
-
-        if (other.tag == "Player")
+        if(other.tag == "Door")
         {
-            player = null;
-            Debug.Log("Player undetected");
+            Doors[DoorsNumber-1] = null;
+            DoorsNumber--;
+        }
+        if (other.tag == "Floor")
+        {
+            TrigersCount--;
         }
     }
 
-
-    public void PlayerInDoors(bool a)
+    private void OnTriggerStay(Collider other)
     {
-        isPlayerInDoors = a;
+        if(other.tag == "Player")
+        {
+            OpenDoors();
+            Debug.Log("Elevator: Player in doors");
+        }
     }
 
+    #endregion
 }

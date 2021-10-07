@@ -7,21 +7,19 @@ public class ButtonScript : MonoBehaviour
     [SerializeField]
     int floor;
 
-    [SerializeField]
-    GameObject elevator;
-
     ElevatorScript elevatorScript;
     Animation anim;
 
     private void Start()
     {
-        elevatorScript = elevator.GetComponent<ElevatorScript>();
+        floor = gameObject.transform.parent.parent.GetComponent<FloorScript>().FloorNumber;
+        elevatorScript = gameObject.transform.parent.parent.GetComponent<FloorScript>().Elevator.GetComponent<ElevatorScript>();
         anim = this.GetComponent<Animation>();
     }
 
     public void TriggerElevator()
     {
         anim.Play();
-        elevatorScript.setFloor(floor);
+        elevatorScript.FloorCall(floor);
     }
 }

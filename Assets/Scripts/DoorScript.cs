@@ -15,7 +15,9 @@ public class DoorScript : MonoBehaviour
 
     private void Start()
     {
-        //elevator = transform.parent.GetComponent<ElevatorScript>();
+        elevator = gameObject.transform.parent.GetComponent<ElevatorScript>();
+        if (elevator == null) elevator = gameObject.transform.parent.GetComponent<FloorScript>().Elevator.GetComponent<ElevatorScript>();
+
         door = this.GetComponent<Transform>();
         if (!isLeft)
         {
@@ -37,7 +39,10 @@ public class DoorScript : MonoBehaviour
                 door.position = new Vector3(
                     door.position.x + DoorSpeed * Time.deltaTime, door.position.y, door.position.z);
             }
-            else isOpen = false;
+            else
+            {
+                isOpen = false;
+            }
         }
         if(isClose)
         {
@@ -46,18 +51,25 @@ public class DoorScript : MonoBehaviour
                 door.position = new Vector3(
                     door.position.x - DoorSpeed * Time.deltaTime, door.position.y, door.position.z);
             }
-            else isClose = false;
+            else
+            {
+                isClose = false;
+                elevator.DoorStatusSet(true);
+            }
         }
     }
 
     public void open()
     {
+        Debug.Log("Door: opening");
+        elevator.DoorStatusSet(false);
         isClose = false;
         isOpen = true;
     }
 
     public void close()
     {
+        Debug.Log("Door: closing");
         isOpen = false;
         isClose = true;
     }
@@ -66,14 +78,7 @@ public class DoorScript : MonoBehaviour
     {
         if(elevator != null && other.tag == "Player")
         {
-            elevator.PlayerInDoors(true);
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (elevator != null && other.tag == "Player")
-        {
-            elevator.PlayerInDoors(false);
+
         }
     }
 }
