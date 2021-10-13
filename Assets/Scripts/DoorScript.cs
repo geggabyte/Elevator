@@ -29,9 +29,6 @@ public class DoorScript : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q)) open();
-        if (Input.GetKeyDown(KeyCode.E)) close();
-
         if (isOpen)
         {
             if ((door.position.x < OpenPosition && isLeft) || (door.position.x > OpenPosition && !isLeft))
@@ -61,7 +58,6 @@ public class DoorScript : MonoBehaviour
 
     public void open()
     {
-        Debug.Log("Door: opening");
         elevator.DoorStatusSet(false);
         isClose = false;
         isOpen = true;
@@ -69,7 +65,6 @@ public class DoorScript : MonoBehaviour
 
     public void close()
     {
-        Debug.Log("Door: closing");
         isOpen = false;
         isClose = true;
     }

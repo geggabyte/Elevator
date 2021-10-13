@@ -313,8 +313,9 @@
 "Assets/Scripts/ButtonScript.cs"
 "Assets/Scripts/DoorScript.cs"
 "Assets/Scripts/ElevatorScript.cs"
-"Assets/Scripts/FloorController.cs"
-"Assets/Scripts/FloorScript.cs"
+"Assets/Scripts/Floor/FloorController.cs"
+"Assets/Scripts/Floor/FloorPanelButtonScript.cs"
+"Assets/Scripts/Floor/FloorScript.cs"
 "Assets/Scripts/PlayerControlle.cs"
 -langversion:8.0
 

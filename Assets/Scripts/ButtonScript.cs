@@ -17,7 +17,7 @@ public class ButtonScript : MonoBehaviour
         anim = this.GetComponent<Animation>();
     }
 
-    public void TriggerElevator()
+    public void Trigger()
     {
         anim.Play();
         elevatorScript.FloorCall(floor);

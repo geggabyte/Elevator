@@ -18,7 +18,7 @@ public class PlayerControlle : MonoBehaviour
 
 
     float horizontal, vertical, mouseX, mouseY;
-    bool isButton = false;
+    bool isButton = false, getInput = true;
     Vector3 forward, right, cameraRayVector;
     Camera cameraObject;
     RaycastHit hit;
@@ -36,9 +36,23 @@ public class PlayerControlle : MonoBehaviour
 
     void Update()
     {
-        Movement();
+        if (getInput)
+        {
+            Movement();
+        }
+
         Raycasting();
-        if (isButton && Input.GetKeyDown(KeyCode.Mouse0)) hit.transform.gameObject.GetComponent<ButtonScript>().TriggerElevator();
+        if (isButton && Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            if(hit.transform.gameObject.GetComponent<ButtonScript>() != null) { hit.transform.gameObject.GetComponent<ButtonScript>().Trigger(); }
+            else hit.transform.gameObject.GetComponent<FloorPanelButtonScript>().Trigger();
+        }
+        if (Input.GetKeyDown(KeyCode.Q)) { transform.position = new Vector3(transform.position.x, transform.position.y - 4f, transform.position.z); }
+        if (Input.GetKeyDown(KeyCode.E)) { transform.position = new Vector3(transform.position.x, transform.position.y + 5f, transform.position.z); }
+        if (Input.GetKeyDown(KeyCode.Escape)) 
+        {
+            getInput = !getInput;
+        }
     }
 
     private void Raycasting()

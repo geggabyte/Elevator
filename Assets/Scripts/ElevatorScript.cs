@@ -5,19 +5,18 @@ using UnityEngine;
 public class ElevatorScript : MonoBehaviour
 {
     // 0 FLOOR IS 1.3 BY Y
-    //TRIGERS DOESN"T WORK WITHOUT RIGIDBODY
 
     [SerializeField]
     private GameObject[] Doors = new GameObject[4];
 
     [SerializeField]
-    private int DoorsNumber = 2, CurrentFlor = 0, CalledFloor = 0, TrigersCount = 0;
+    private int DoorsNumber = 1, CurrentFlor = 0, CalledFloor = 0, TrigersCount = 0;
 
     [SerializeField]
-    private float ElevatorSpeed = 1f;
+    private float ElevatorDefaultSpeed = 1f, CurrentSpeed;
 
     [SerializeField]
-    bool IsDoorsClosed = true, IsDoorLocked = false;
+    bool IsDoorsClosed = true, IsDoorLocked = false, IsGoing = false;
 
     private Transform ElevatorTransform;
 
@@ -28,14 +27,18 @@ public class ElevatorScript : MonoBehaviour
 
     private void Update()
     {
-        if(TrigersCount >= 2 && CurrentFlor == CalledFloor)
+        if (IsGoing && !IsDoorLocked)
         {
-            FinishTravel();
+            if (CalledFloor < CurrentFlor)
+            {
+                CurrentSpeed = ElevatorDefaultSpeed * -1f;
+            }
+            else CurrentSpeed = ElevatorDefaultSpeed;
         }
-        if (IsDoorsClosed && CurrentFlor != CalledFloor)
+        if (IsDoorsClosed && IsGoing)
         {
             if (!IsDoorLocked) IsDoorLocked = true;
-            ElevatorTransform.position = new Vector3(ElevatorTransform.position.x, ElevatorTransform.position.y + ElevatorSpeed * Time.deltaTime, ElevatorTransform.position.z);
+            ElevatorTransform.position = new Vector3(ElevatorTransform.position.x, ElevatorTransform.position.y + CurrentSpeed * Time.deltaTime, ElevatorTransform.position.z);
         }
     }
 
@@ -46,7 +49,7 @@ public class ElevatorScript : MonoBehaviour
 
     public void FloorCall(int floor)
     {
-        Debug.LogFormat("Elevator: floor called {0}", floor);
+        Debug.LogFormat("Elevator: {0} floor call recieved", floor);
         if (floor == CurrentFlor)
         {
             OpenDoors();
@@ -55,11 +58,13 @@ public class ElevatorScript : MonoBehaviour
         {
             CalledFloor = floor;
             CloseDoors();
+            IsGoing = true;
         }
     }
 
     private void FinishTravel()
     {
+        IsGoing = false;
         IsDoorLocked = false;
         OpenDoors();
     }
@@ -87,27 +92,38 @@ public class ElevatorScript : MonoBehaviour
     {
         if(other.tag == "Door")
         {
-            Doors[DoorsNumber] = other.gameObject;
+            if (other.gameObject.name == Doors[DoorsNumber].name) return;
+            Debug.LogFormat("Elevator: door {0} founded", other.gameObject.name);
             DoorsNumber++;
+            Doors[DoorsNumber] = other.gameObject;
         }
         if(other.tag == "Floor")
         {
-            TrigersCount++;
-            CurrentFlor = other.gameObject.transform.parent.GetComponent<FloorScript>().FloorNumber;
-            Debug.LogFormat("Elevator: touched {0}", CurrentFlor);
+            int floor = other.gameObject.transform.parent.GetComponent<FloorScript>().FloorNumber;
+            if (floor != CurrentFlor && TrigersCount == 0)
+            {
+                TrigersCount = 1;
+                CurrentFlor = floor;
+            }
+
+            else if(floor == CalledFloor && CalledFloor == CurrentFlor)
+            {
+                FinishTravel();
+            }
+            Debug.LogFormat("Elevator: touched {0} floor", floor);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.tag == "Door")
+        if(other.tag == "Door" && IsGoing)
         {
-            Doors[DoorsNumber-1] = null;
-            DoorsNumber--;
+            Debug.Log("Elevator: doors exited");
+            DoorsNumber = 1;
         }
         if (other.tag == "Floor")
         {
-            TrigersCount--;
+            TrigersCount = 0;
         }
     }
 
