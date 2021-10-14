@@ -208,6 +208,7 @@ MonoBehaviour:
   defaultCursor: {fileID: 2800000, guid: cbd3dedee7363614d9127b70a98f60f3, type: 3}
   interactCursor: {fileID: 2800000, guid: 51f529b7c561b2342a8365f13193d4a3, type: 3}
   cursor: {fileID: 8842710541996996797}
+  LookingAtObject: {fileID: 0}
 --- !u!1 &8842710542725499989
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,7 +335,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8842710542972068310}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.7, z: 0.2}
+  m_LocalPosition: {x: 0, y: 0.7, z: 0.1}
   m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_Children:
   - {fileID: 8842710542725499988}

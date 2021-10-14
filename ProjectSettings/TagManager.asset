@@ -7,6 +7,7 @@ TagManager:
   - Button
   - Door
   - Floor
+  - Elevator
   layers:
   - Default
   - TransparentFX
@@ -14,7 +15,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Elevator
   - 
   - 
   - 

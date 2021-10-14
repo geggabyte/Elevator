@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 7161370205574762269}
   - component: {fileID: 553919372820205169}
   - component: {fileID: 1369244657287744176}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ButtonPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -379,7 +379,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5, z: 0.5}
-  m_Center: {x: 0, y: 1.15, z: 0}
+  m_Center: {x: 0, y: 1.12, z: 0}
 --- !u!65 &3454573711441835199
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -871,7 +871,7 @@ GameObject:
   - component: {fileID: 8168732445413321297}
   - component: {fileID: 889245689829845997}
   - component: {fileID: 4514401748201131609}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Button
   m_TagString: Button
   m_Icon: {fileID: 0}
@@ -994,12 +994,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 2917106611235089097}
     m_Modifications:
     - target: {fileID: 73218307984161176, guid: cd902260575ecda47b6f5914f4133698, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 73218307984161176, guid: cd902260575ecda47b6f5914f4133698, type: 3}
       propertyPath: m_TagString
       value: Button
       objectReference: {fileID: 0}
     - target: {fileID: 573369924357804145, guid: cd902260575ecda47b6f5914f4133698, type: 3}
       propertyPath: m_Name
       value: Controll Panel
+      objectReference: {fileID: 0}
+    - target: {fileID: 573369924357804145, guid: cd902260575ecda47b6f5914f4133698, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 918404762830703307, guid: cd902260575ecda47b6f5914f4133698, type: 3}
       propertyPath: m_RootOrder
@@ -1045,9 +1053,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1051634782431077846, guid: cd902260575ecda47b6f5914f4133698, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1346944811037247949, guid: cd902260575ecda47b6f5914f4133698, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1346944811037247949, guid: cd902260575ecda47b6f5914f4133698, type: 3}
       propertyPath: m_TagString
       value: Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 2410012803457388481, guid: cd902260575ecda47b6f5914f4133698, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd902260575ecda47b6f5914f4133698, type: 3}

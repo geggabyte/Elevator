@@ -16,9 +16,12 @@ public class PlayerControlle : MonoBehaviour
     [SerializeField]
     RawImage cursor;
 
+    [SerializeField]
+    GameObject LookingAtObject;
 
     float horizontal, vertical, mouseX, mouseY;
     bool isButton = false, getInput = true;
+    int layer_mask;
     Vector3 forward, right, cameraRayVector;
     Camera cameraObject;
     RaycastHit hit;
@@ -30,6 +33,7 @@ public class PlayerControlle : MonoBehaviour
         cameraTransform = gameObject.transform.GetChild(0);
         cameraObject = cameraTransform.GetComponent<Camera>();
         cameraRayVector = new Vector3(Screen.width/2, Screen.height/2, 0);
+        layer_mask = LayerMask.GetMask("Elevator");
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -60,16 +64,16 @@ public class PlayerControlle : MonoBehaviour
         cursor.texture = defaultCursor;
         isButton = false;
         ray = cameraObject.ScreenPointToRay(cameraRayVector);
-        if(Physics.Raycast(ray, out hit))
+        if(Physics.Raycast(ray, out hit, distance, ~layer_mask))
         {
+            //Debug.LogFormat("PlayerController: hited {0}", hit.transform.tag);
             if (hit.transform.tag == "Button")
             {
-                if ((transform.position - hit.transform.position).magnitude <= distance)
-                {
-                    cursor.texture = interactCursor;
-                    isButton = true;
-                }
+                cursor.texture = interactCursor;
+                isButton = true;
             }
+
+            LookingAtObject = hit.transform.gameObject;
         }
     }
 

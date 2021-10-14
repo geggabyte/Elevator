@@ -93,7 +93,7 @@ public class ElevatorScript : MonoBehaviour
         if(other.tag == "Door")
         {
             if (other.gameObject.name == Doors[DoorsNumber].name) return;
-            Debug.LogFormat("Elevator: door {0} founded", other.gameObject.name);
+            //Debug.LogFormat("Elevator: door {0} founded", other.gameObject.name);
             DoorsNumber++;
             Doors[DoorsNumber] = other.gameObject;
         }
@@ -132,7 +132,6 @@ public class ElevatorScript : MonoBehaviour
         if(other.tag == "Player")
         {
             OpenDoors();
-            Debug.Log("Elevator: Player in doors");
         }
     }
 
