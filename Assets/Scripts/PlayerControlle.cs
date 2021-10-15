@@ -48,8 +48,10 @@ public class PlayerControlle : MonoBehaviour
         Raycasting();
         if (isButton && Input.GetKeyDown(KeyCode.Mouse0))
         {
-            if(hit.transform.gameObject.GetComponent<ButtonScript>() != null) { hit.transform.gameObject.GetComponent<ButtonScript>().Trigger(); }
-            else hit.transform.gameObject.GetComponent<FloorPanelButtonScript>().Trigger();
+            if (hit.transform.gameObject.GetComponent<ButtonScript>() != null) { hit.transform.gameObject.GetComponent<ButtonScript>().Trigger(); }
+            else if (hit.transform.gameObject.GetComponent<FloorPanelButtonScript>() != null) hit.transform.gameObject.GetComponent<FloorPanelButtonScript>().Trigger();
+            else if (hit.transform.gameObject.GetComponent<PanelButtonScript>() != null) hit.transform.gameObject.GetComponent<PanelButtonScript>().Trigger();
+            else hit.transform.gameObject.GetComponent<ElevatorButton>().Trigger();
         }
         if (Input.GetKeyDown(KeyCode.Q)) { transform.position = new Vector3(transform.position.x, transform.position.y - 4f, transform.position.z); }
         if (Input.GetKeyDown(KeyCode.E)) { transform.position = new Vector3(transform.position.x, transform.position.y + 5f, transform.position.z); }
