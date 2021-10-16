@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class FloorController : MonoBehaviour
 {
-    [SerializeField]
-    private int FloorNumber = 3;
+    public int FloorNumber = 3;
 
     [SerializeField]
     private float FloorSpawnDistance = 4.55f;
@@ -15,26 +14,28 @@ public class FloorController : MonoBehaviour
 
     private GameObject _createdFloor;
 
+    private PlayerController player;
+
     private List<GameObject> floors = new List<GameObject>();
 
     private void Start()
     {
         for(int i = 0; i < FloorNumber; i++)
-        {
             InstanstiateFloor(i);
-        }
+
         FloorNumber--;
+        player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
     }
 
     public void ChangeFloorNumber(int value)
     {
         if(FloorNumber == 0 && value < 0)
         {
-            Debug.Log("FloorController: 0 floors");
+            player.Log("FloorController: 1 floor");
             return;
         }
 
-        Debug.LogFormat("FloorController: change floors number by {0}", value);
+        player.Log("FloorController: change floors number by " + value);
         if(value < 0)
         {
             Destroy(floors[FloorNumber]);
@@ -65,8 +66,6 @@ public class FloorController : MonoBehaviour
     private void ChangeNumbers()
     {
         foreach (GameObject a in floors)
-        {
             a.GetComponent<FloorScript>().TextSetUp(FloorNumber + 1);
-        }
     }
 }

@@ -193,19 +193,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 573369924357804145, guid: cd902260575ecda47b6f5914f4133698, type: 3}
   m_PrefabInstance: {fileID: 1645443031}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &805216250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 805216249}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 333db55da3a67d2468cf90828b5d5bde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parent: {fileID: 0}
 --- !u!114 &805216251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,6 +206,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 1148881143}
+  floorController: {fileID: 774889609}
+  parent: {fileID: 0}
 --- !u!114 &1148881143 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4501143674661999811, guid: cd902260575ecda47b6f5914f4133698, type: 3}
@@ -507,15 +496,8 @@ MonoBehaviour:
   - {fileID: 1011651078950383639}
   - {fileID: 0}
   - {fileID: 0}
-  DoorsNumber: 1
-  CurrentFlor: -1
-  CalledFloor: 0
-  TrigersCount: 0
   ElevatorDefaultSpeed: 1
   CurrentSpeed: 0
-  IsDoorsClosed: 1
-  IsDoorLocked: 0
-  IsGoing: 0
 --- !u!54 &1653049654
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1058,6 +1040,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7148915086055065630, guid: 926fb932c70a446459106785a4f1acbf, type: 3}
+      propertyPath: m_Name
+      value: LOG
+      objectReference: {fileID: 0}
     - target: {fileID: 8842710542477450502, guid: 926fb932c70a446459106785a4f1acbf, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1102,9 +1088,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8842710542477450554, guid: 926fb932c70a446459106785a4f1acbf, type: 3}
+      propertyPath: LogText
+      value: 
+      objectReference: {fileID: 8842710543083670696}
     - target: {fileID: 8842710542477450555, guid: 926fb932c70a446459106785a4f1acbf, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 926fb932c70a446459106785a4f1acbf, type: 3}
+--- !u!114 &8842710543083670696 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1390145533475070086, guid: 926fb932c70a446459106785a4f1acbf, type: 3}
+  m_PrefabInstance: {fileID: 8842710543083670695}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -53,17 +53,17 @@
     <UnityVersion>2021.1.19f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\ElevatorButtons\FollowParent.cs" />
     <Compile Include="Assets\Scripts\ElevatorScript.cs" />
     <Compile Include="Assets\Scripts\DoorScript.cs" />
     <Compile Include="Assets\Scripts\Floor\FloorPanelButtonScript.cs" />
-    <Compile Include="Assets\Scripts\PlayerControlle.cs" />
-    <Compile Include="Assets\Scripts\ButtonScript.cs" />
+    <Compile Include="Assets\Scripts\ElevatorButtons\ElevatorButton.cs" />
+    <Compile Include="Assets\Scripts\ElevatorButtons\ElevatorPanel.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Floor\ButtonScript.cs" />
+    <Compile Include="Assets\Scripts\ElevatorButtons\PanelButtonScript.cs" />
+    <Compile Include="Assets\Scripts\Player\LogCheker.cs" />
     <Compile Include="Assets\Scripts\Floor\FloorController.cs" />
     <Compile Include="Assets\Scripts\Floor\FloorScript.cs" />
-    <Compile Include="Assets\Scripts\ElevatorButtons\PanelButtonScript.cs" />
-    <Compile Include="Assets\Scripts\ElevatorButtons\ElevatorPanel.cs" />
-    <Compile Include="Assets\Scripts\ElevatorButtons\ElevatorButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
